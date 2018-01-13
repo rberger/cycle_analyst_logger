@@ -1,5 +1,57 @@
-= cycle_analyst_logger
+== cycle_analyst_logger - Describe your application here
 
-Generate this with
-    cycle_analyst_logger rdoc
-After you have described your command line interface
+v0.0.1
+
+=== Global Options
+=== -b|--baudrate arg
+
+Serial port baudrate
+
+[Default Value] 115200
+
+
+=== -t|--tty arg
+
+Serial (USB) device
+
+[Default Value] /dev/ttyUSB0
+
+
+=== --help
+Show this message
+
+
+
+=== -q|--[no-]quiet
+Do not output to stdout
+
+
+
+=== --version
+Display the program version
+
+
+
+=== Commands
+==== Command: <tt>help  command</tt>
+Shows a list of commands or help for one command
+
+Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function
+===== Options
+===== -c
+List commands one per line, to assist with shell completion
+
+
+
+==== Command: <tt>log </tt>
+Capture the logging output of the CA to a file
+
+
+===== Options
+===== -l|--line_count arg
+
+How many lines to read
+
+[Default Value] forever
+
+

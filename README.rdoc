@@ -1,6 +1,21 @@
 = cycle_analyst_logger
 
-Describe your project here
+== NAME
+    cycle_analyst_logger - Describe your application here
+
+== SYNOPSIS
+    cycle_analyst_logger [global options] command [command options] [arguments...]
+
+== GLOBAL OPTIONS
+    -t, --tty=arg      - Serial (USB) device (default: /dev/ttyUSB0)
+    -b, --baudrate=arg - Serial port baudrate (default: 115200)
+    --version          - Display the program version
+    -q, --[no-]quiet   - Do not output to stdout
+    --help             - Show this message
+
+== COMMANDS
+    help - Shows a list of commands or help for one command
+    log  - Capture the logging output of the CA to a file
 
 :include:cycle_analyst_logger.rdoc
 
