@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
   spec.rdoc_options << '--title' << 'cycle_analyst_logger' << '--main' << 'README.rdoc' << '-ri'
 
   spec.add_runtime_dependency 'gli', '~> 2.17'
-  spec.add_runtime_dependency 'rubyserial', '~> 0.5'
+  spec.add_runtime_dependency 'serialport', '~> 1.3'
 
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'rake', '~> 10.0'

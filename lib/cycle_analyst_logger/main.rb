@@ -36,10 +36,10 @@ module CycleAnalystLogger
         log.flag [:l, :line_count]
 
         log.action do |global_options, options, args|
-          queit = global[:quiet]
+          quiet = global_options[:quiet]
           line_count = options[:line_count]
           output_fd = File.open("cycle_analyst.#{Time.now.strftime('%Y-%m-%d_%H-%M-%S')}.csv", 'w')
-          ca.get_logs(output_fd, line_count, verbose)
+          ca.get_logs(output_fd, line_count, quiet)
         end
       end
 

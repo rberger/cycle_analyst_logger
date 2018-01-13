@@ -1,4 +1,4 @@
-require 'rubyserial'
+require 'serialport'
 
 module CycleAnalystLogger
   class CycleAnalyst
@@ -27,7 +27,7 @@ module CycleAnalystLogger
       @baudrate = opts[:baudrate]
       @tty = opts[:tty]
       @dict = CA_DICT
-      @serial_io = Serial.new @tty, @baudrate
+      @serial_io = SerialPort.new @tty, @baudrate, 8, 1
     end
 
     # Get line from serial port and send to file
