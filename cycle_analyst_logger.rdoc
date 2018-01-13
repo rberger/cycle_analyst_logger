@@ -1,0 +1,5 @@
+= cycle_analyst_logger
+
+Generate this with
+    cycle_analyst_logger rdoc
+After you have described your command line interface

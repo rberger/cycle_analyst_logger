@@ -1,0 +1,3 @@
+module CycleAnalystLogger
+  VERSION = '0.0.1'
+end

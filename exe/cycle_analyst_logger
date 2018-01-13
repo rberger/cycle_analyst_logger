@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require 'gli'
+require 'cycle_analyst_logger'
+
+cli = CycleAnalystLogger::Cli.new
+cli.main

@@ -1,0 +1,14 @@
+Ah
+Volts
+Amps
+Speed (Kph)
+Distance (Km)
+Motor Temp (DegC)
+Human RPM (cadence)
+Human Power (Watts)
+Human Torque (Nm)
+Throtle In (Volts)
+Throtle Out (Volts)
+Acceleration
+Limit Flags (preset #, Thr Fault, Ebrake, LVC, Limit flags)
+
