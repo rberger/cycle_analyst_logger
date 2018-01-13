@@ -17,5 +17,11 @@
     help - Shows a list of commands or help for one command
     log  - Capture the logging output of the CA to a file
 
+=== log - Capture the logging output of the CA to a file
+    cycle_analyst_logger [global options] log [command options] [tty] [baudrate]
+
+=== COMMAND OPTIONS
+    -l, --line_count=arg - How many lines to read (default: forever)
+
 :include:cycle_analyst_logger.rdoc
 
