@@ -1,6 +1,11 @@
 require 'gli'
 
 module CycleAnalystLogger
+  # Handle Ctl-C exit
+  trap "SIGINT" do
+    puts "Exiting"
+    exit 130
+  end
 
   class Cli
     attr_reader :ca
