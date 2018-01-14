@@ -7,14 +7,14 @@ v0.0.1
 
 Serial port baudrate
 
-[Default Value] 115200
+[Default Value] 9600
 
 
 === -t|--tty arg
 
 Serial (USB) device
 
-[Default Value] /dev/ttyUSB0
+[Default Value] /dev/ttyUSB1
 
 
 === --help
