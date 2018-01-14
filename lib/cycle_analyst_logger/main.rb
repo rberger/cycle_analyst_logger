@@ -43,12 +43,12 @@ module CycleAnalystLogger
       desc 'Phaserunner Serial (USB) device'
       default_value '/dev/ttyUSB0'
       arg 'tty', :optional
-      flag [:t, :tty_pr]
+      flag [:tty_pr]
 
       desc 'Phaserunner Serial port baudrate'
       default_value 115200
       arg 'baudrate', :optional
-      flag [:b, :baud_pr]
+      flag [:baud_pr]
 
       desc "How many lines to read"
       default_value :forever
