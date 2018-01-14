@@ -1,27 +1,30 @@
 = cycle_analyst_logger
 
 == NAME
-    cycle_analyst_logger - Store the streaming data log output of a Grin Cycle Analyst V3
+    cycle_analyst_logger - Store the streaming data log output of a Grin Cycle Analyst V3 and optionally a Phaserunner
 
 == SYNOPSIS
     cycle_analyst_logger [global options] command [command options] [arguments...]
+    cycle_analyst_logger [global options] log [tty] [baudrate] [enable_phaserunner] [tty] [baudrate]
+
+== VERSION
+    0.2.0
 
 == GLOBAL OPTIONS
-    -t, --tty=arg      - Serial (USB) device (default: /dev/ttyUSB1)
-    -b, --baudrate=arg - Serial port baudrate (default: 9600)
-    --version          - Display the program version
-    -q, --[no-]quiet   - Do not output to stdout
-    --help             - Show this message
+    -t, --tty_ca=arg         - Cycle Analyst Serial (USB) device (default: /dev/ttyUSB1)
+    -b, --baud_ca=arg        - Cycle Analyst Serial port baudrate (default: 9600)
+    --enable_phaserunner=arg - Get PhaseRunner Logs also (default: true)
+    --tty_pr=arg             - Phaserunner Serial (USB) device (default: /dev/ttyUSB0)
+    --baud_pr=arg            - Phaserunner Serial port baudrate (default: 115200)
+    -l, --loop_count=arg     - How many lines to read (default: forever)
+    --version                - Display the program version
+    -q, --[no-]quiet         - Do not output to stdout
+    --help                   - Show this message
 
 == COMMANDS
     help - Shows a list of commands or help for one command
-    log  - Capture the logging output of the CA to a file
+    log  - Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file
 
-=== log - Capture the logging output of the CA to a file
-    cycle_analyst_logger [global options] log [command options] [tty] [baudrate]
-
-=== COMMAND OPTIONS
-    -l, --line_count=arg - How many lines to read (default: forever)
 
 :include:cycle_analyst_logger.rdoc
 

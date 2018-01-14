@@ -17,7 +17,7 @@ module CycleAnalystLogger
     include GLI::App
 
     def main
-      program_desc 'Store the streaming data log output of a Grin Cycle Analyst V3'
+      program_desc 'Store the streaming data log output of a Grin Cycle Analyst V3 and optionally a Phaserunner'
 
       version CycleAnalystLogger::VERSION
 
@@ -57,7 +57,7 @@ module CycleAnalystLogger
       desc 'Do not output to stdout'
       switch [:q, :quiet]
 
-      desc 'Capture the logging output of the Cycle Analyst to a file'
+      desc 'Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file'
       command :log do |log|
         log.action do |global_options, options, args|
           filename = "cycle_analyst.#{Time.now.strftime('%Y-%m-%d_%H-%M-%S')}.csv"

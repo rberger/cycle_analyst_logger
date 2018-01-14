@@ -1,20 +1,48 @@
-== cycle_analyst_logger - Describe your application here
+== cycle_analyst_logger - Store the streaming data log output of a Grin Cycle Analyst V3 and optionally a Phaserunner
 
-v0.0.1
+v0.2.0
 
 === Global Options
-=== -b|--baudrate arg
+=== -b|--baud_ca arg
 
-Serial port baudrate
+Cycle Analyst Serial port baudrate
 
 [Default Value] 9600
 
 
-=== -t|--tty arg
+=== --baud_pr arg
 
-Serial (USB) device
+Phaserunner Serial port baudrate
+
+[Default Value] 115200
+
+
+=== --enable_phaserunner arg
+
+Get PhaseRunner Logs also
+
+[Default Value] true
+
+
+=== -l|--loop_count arg
+
+How many lines to read
+
+[Default Value] forever
+
+
+=== -t|--tty_ca arg
+
+Cycle Analyst Serial (USB) device
 
 [Default Value] /dev/ttyUSB1
+
+
+=== --tty_pr arg
+
+Phaserunner Serial (USB) device
+
+[Default Value] /dev/ttyUSB0
 
 
 === --help
@@ -44,14 +72,6 @@ List commands one per line, to assist with shell completion
 
 
 ==== Command: <tt>log </tt>
-Capture the logging output of the CA to a file
-
-
-===== Options
-===== -l|--line_count arg
-
-How many lines to read
-
-[Default Value] forever
+Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file
 
 
