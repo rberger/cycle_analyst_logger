@@ -1,7 +1,7 @@
 = cycle_analyst_logger
 
 == NAME
-    cycle_analyst_logger - Describe your application here
+    cycle_analyst_logger - Store the streaming data log output of a Grin Cycle Analyst V3
 
 == SYNOPSIS
     cycle_analyst_logger [global options] command [command options] [arguments...]

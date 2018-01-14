@@ -8,7 +8,7 @@ module CycleAnalystLogger
     include GLI::App
 
     def main
-      program_desc 'Describe your application here'
+      program_desc 'Store the streaming data log output of a Grin Cycle Analyst V3'
 
       version CycleAnalystLogger::VERSION
 
