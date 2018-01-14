@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rdoc', '~> 0', '>= 5.0.0'
+  spec.add_development_dependency 'rdoc', '>= 5.0.0'
   spec.add_development_dependency 'aruba', '~> 0.14'
   spec.add_development_dependency 'yard', '~> 0.9'
 end
