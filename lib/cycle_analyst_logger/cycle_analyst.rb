@@ -1,5 +1,6 @@
 require 'time'
 require 'serialport'
+require 'phaserunner'
 
 module CycleAnalystLogger
   class CycleAnalyst
@@ -48,7 +49,7 @@ module CycleAnalystLogger
       @enable_phaserunner = opts[:enable_phaserunner]
       if @enable_phaserunner
         @phaserunner = Phaserunner::Modbus.new(
-          tty: global[:tty_pr], baudrate: global[:baud_pr]
+          tty: opts[:tty_pr], baudrate: opts[:baud_pr]
         )
       end
     end
@@ -67,7 +68,7 @@ module CycleAnalystLogger
 
     # Converts a TSV string into an array
     def tsv2array(line)
-      line.split("\t")
+      line.strip.split("\t")
     end
 
     # Get line from Cycle Analyst serial port, optionally also the Phaserunner and send to stdout and file
@@ -87,7 +88,7 @@ module CycleAnalystLogger
           tsv2array(line)
         )
         output += phaserunner.bulk_log_data if enable_phaserunner
-        output_line = output.join(',')
+        output_line = output.flatten.join(',')
 
         puts output_line unless quiet
         output_fd.puts output_line if output_fd
