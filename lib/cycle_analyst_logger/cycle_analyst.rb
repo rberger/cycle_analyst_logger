@@ -3,11 +3,25 @@ require 'serialport'
 
 module CycleAnalystLogger
   class CycleAnalyst
+    # Cycle Analyst serial port Baudrate
     attr_reader :baudrate
+
+    # Cycle Analyst serial port name
     attr_reader :tty
+
+    # Hash that describes the names, values and units of the Cycle Analyst log data
     attr_reader :dict
+
+    # Handle from the SerialPort object
     attr_reader :serial_io
-    
+
+    # If the phaeserunner should be read
+    attr_reader :enable_phaserunner
+
+    # Handle of the Phaserunner::Modbus object
+    attr_reader :phaserunner
+
+    # Hash definition that describes the names, values and units of the Cycle Analyst log data
     CA_DICT = {
       0 => {address: 0, name: "Amp Hours", units: "Ah", scale: 1},
       1 => { address: 1, name: "Volts", units: "V", scale: 1 },
@@ -25,45 +39,60 @@ module CycleAnalystLogger
       13 => { address: 12, name: "Limit Flags", units: "bit flags", scale: 1}
     }
 
+    # CycleAnalyst New
     def initialize(opts)
-      @baudrate = opts[:baudrate]
-      @tty = opts[:tty]
+      @baudrate = opts[:baud_ca]
+      @tty = opts[:tty_ca]
       @dict = CA_DICT
       @serial_io = SerialPort.new @tty, @baudrate, 8, 1
+      @enable_phaserunner = opts[:enable_phaserunner]
+      if @enable_phaserunner
+        @phaserunner = Phaserunner::Modbus.new(
+          tty: global[:tty_pr], baudrate: global[:baud_pr]
+        )
+      end
     end
 
+    # Forms the proper header line
+    # @return [String] of a printable CSV header line
     def logs_header
-      dict.map do |(address, node)|
+      hdr = dict.map do |(address, node)|
         "#{node[:name]} (#{node[:units]})"
-      end.join(",")
+      end
+      if enable_phaserunner
+        hdr += phaserunner.bulk_log_header.map { |name| "PR #{name}" }
+      end
+      hdr.join(',')
     end
 
+    # Converts a TSV string into an array
     def tsv2array(line)
       line.split("\t")
     end
 
-    # Get line from serial port and send to file
+    # Get line from Cycle Analyst serial port, optionally also the Phaserunner and send to stdout and file
     # @param output_fd [File] File Descriptor of the output file to write to. Don't write to file if nil
-    # @param line_count [Integer, Symbol] Number of lines to output, or forever if :forever
+    # @param loop_count [Integer, Symbol] Number of lines to output, or forever if :forever
     # @param quite [Boolean] Don't output to stdout if true
-    def get_logs(output_fd, line_count, quiet)
+    def get_logs(output_fd, loop_count, quiet)
       line_number = 0
       hdr = %Q(Timestamp,#{logs_header})
 
       puts hdr if not quiet
       output_fd.puts hdr if output_fd
 
-      serial_io.each_line do |line|
-        output_line = %Q(#{Time.now.utc.round(10).iso8601(6)},#{tsv2array(line).join(",")})
-        puts output_line if not quiet
+      serial_io.each_line.with_index do |line, idx|
+        output = (
+          [Time.now.utc.round(10).iso8601(6)] +
+          tsv2array(line)
+        )
+        output += phaserunner.bulk_log_data if enable_phaserunner
+        output_line = output.join(',')
+
+        puts output_line unless quiet
         output_fd.puts output_line if output_fd
 
-        # Determine if we go forever
-        if (line_count != :forever)
-          # If not, then quit when we reach count lines
-          line_number +=1
-          break if line_number >= line_count
-        end
+        break if idx >= loop_count
       end
     end
   end

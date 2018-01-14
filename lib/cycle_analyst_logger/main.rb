@@ -8,7 +8,11 @@ module CycleAnalystLogger
   end
 
   class Cli
-    attr_reader :ca
+    attr_reader :cycle_analyst
+    attr_reader :enable_phaserunner
+    attr_reader :pr
+    attr_reader :quiet
+    attr_reader :loop_count
 
     include GLI::App
 
@@ -21,30 +25,44 @@ module CycleAnalystLogger
       arguments :strict
       sort_help :manually
 
-      desc 'Serial (USB) device'
+      desc 'Cycle Analyst Serial (USB) device'
       default_value '/dev/ttyUSB1'
       arg 'tty', :optional
-      flag [:t, :tty]
+      flag [:t, :tty_ca]
 
-      desc 'Serial port baudrate'
+      desc 'Cycle Analyst Serial port baudrate'
       default_value 9600
       arg 'baudrate', :optional
-      flag [:b, :baudrate]
+      flag [:b, :baud_ca]
+
+      desc 'Get PhaseRunner Logs also'
+      default_value true
+      arg 'enable_phaserunner', :optional
+      flag [:enable_phaserunner]
+
+      desc 'Phaserunner Serial (USB) device'
+      default_value '/dev/ttyUSB0'
+      arg 'tty', :optional
+      flag [:t, :tty_pr]
+
+      desc 'Phaserunner Serial port baudrate'
+      default_value 115200
+      arg 'baudrate', :optional
+      flag [:b, :baud_pr]
+
+      desc "How many lines to read"
+      default_value :forever
+      flag [:l, :loop_count]
 
       desc 'Do not output to stdout'
       switch [:q, :quiet]
 
-      desc 'Capture the logging output of the CA to a file'
+      desc 'Capture the logging output of the Cycle Analyst to a file'
       command :log do |log|
-        log.desc "How many lines to read"
-        log.default_value :forever
-        log.flag [:l, :line_count]
-
         log.action do |global_options, options, args|
-          quiet = global_options[:quiet]
-          line_count = options[:line_count]
-          output_fd = File.open("cycle_analyst.#{Time.now.strftime('%Y-%m-%d_%H-%M-%S')}.csv", 'w')
-          ca.get_logs(output_fd, line_count, quiet)
+          filename = "cycle_analyst.#{Time.now.strftime('%Y-%m-%d_%H-%M-%S')}.csv"
+          output_fd = File.open(filename, 'w')
+          cycle_analyst.get_logs(output_fd, loop_count, quiet)
         end
       end
 
@@ -54,7 +72,15 @@ module CycleAnalystLogger
         # chosen command
         # Use skips_pre before a command to skip this block
         # on that command only
-        @ca = CycleAnalyst.new(global)
+        @quiet = global[:quiet]
+        # Handle that loop_count can be :forever or an Integer
+        @loop_count = if global[:loop_count] == :forever
+                        Float::INFINITY
+                      else
+                        global[:loop_count].to_i
+                      end
+        @enable_phaserunner = global[:enable_phaserunner]
+        @cycle_analyst = CycleAnalyst.new(global)
       end
 
       post do |global,command,options,args|
