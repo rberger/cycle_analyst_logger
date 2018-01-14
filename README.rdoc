@@ -1,5 +1,7 @@
 = cycle_analyst_logger
 
+{<img src="https://badge.fury.io/rb/cycle_analyst_logger.svg" alt="Gem Version" />}[https://badge.fury.io/rb/cycle_analyst_logger]
+
 == NAME
     cycle_analyst_logger - Store the streaming data log output of a Grin Cycle Analyst V3 and optionally a Phaserunner
 
@@ -24,6 +26,11 @@
 == COMMANDS
     help - Shows a list of commands or help for one command
     log  - Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file
+
+== License and Copyright
+
+* Copyright (c) 2018 Robert J. Berger
+* License: MIT
 
 
 :include:cycle_analyst_logger.rdoc
