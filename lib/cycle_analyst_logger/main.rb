@@ -17,12 +17,12 @@ module CycleAnalystLogger
       sort_help :manually
 
       desc 'Serial (USB) device'
-      default_value '/dev/ttyUSB0'
+      default_value '/dev/ttyUSB1'
       arg 'tty', :optional
       flag [:t, :tty]
 
       desc 'Serial port baudrate'
-      default_value 115200
+      default_value 9600
       arg 'baudrate', :optional
       flag [:b, :baudrate]
 

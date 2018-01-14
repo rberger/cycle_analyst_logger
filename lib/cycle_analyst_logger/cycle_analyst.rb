@@ -1,3 +1,4 @@
+require 'time'
 require 'serialport'
 
 module CycleAnalystLogger
@@ -19,8 +20,9 @@ module CycleAnalystLogger
       8 => { address: 8, name: "Human Torque", units: "Nm", scale: 1},
       9 => { address: 9, name: "Throttle In", units: "V", scale: 1},
       10 => { address: 10, name: "Throttle Out", units: "V", scale: 1},
-      11 => { address: 11, name:  "Acceleration", units: "", scale: 1},
-      12 => { address: 12, name: "Limit Flags", units: "preset #, Thr Fault, Ebrake, LVC, Limit flags", scale: 1}
+      11 => { address: 11, name:  "AuxA", units: "", scale: 1},
+      12 => { address: 11, name:  "AuxD", units: "", scale: 1},
+      13 => { address: 12, name: "Limit Flags", units: "bit flags", scale: 1}
     }
 
     def initialize(opts)
@@ -30,18 +32,34 @@ module CycleAnalystLogger
       @serial_io = SerialPort.new @tty, @baudrate, 8, 1
     end
 
+    def logs_header
+      dict.map do |(address, node)|
+        "#{node[:name]} (#{node[:units]})"
+      end.join(",")
+    end
+
+    def tsv2array(line)
+      line.split("\t")
+    end
+
     # Get line from serial port and send to file
     # @param output_fd [File] File Descriptor of the output file to write to. Don't write to file if nil
     # @param line_count [Integer, Symbol] Number of lines to output, or forever if :forever
     # @param quite [Boolean] Don't output to stdout if true
     def get_logs(output_fd, line_count, quiet)
       line_number = 0
+      hdr = %Q(Timestamp,#{logs_header})
+
+      puts hdr if not quiet
+      output_fd.puts hdr if output_fd
+
       serial_io.each_line do |line|
-        puts line if not quiet
-        output_fd.puts line if output_fd
+        output_line = %Q(#{Time.now.utc.round(10).iso8601(6)},#{tsv2array(line).join(",")})
+        puts output_line if not quiet
+        output_fd.puts output_line if output_fd
 
         # Determine if we go forever
-        if not (line_count != :forever)
+        if (line_count != :forever)
           # If not, then quit when we reach count lines
           line_number +=1
           break if line_number >= line_count
