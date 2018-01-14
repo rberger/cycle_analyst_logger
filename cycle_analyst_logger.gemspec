@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Robert J. Berger"]
   spec.email         = ["rberger@ibd.com"]
 
-  spec.summary       = %q{Read and store log output from the Grin Cycle Analyst}
-  spec.description   = %q{Read and store log output from the Grin Cycle Analyst}
+  spec.summary       = %q{Read and store log output from the Grin Cycle Analyst and Phaserunner}
+  spec.description   = %q{Read and store log output from the Grin Cycle Analyst and optionally Phaserunner}
   spec.homepage      = "https://github.com/rberger/cycle_analyst_logger"
   spec.license       = "MIT"
 
@@ -27,12 +27,12 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'gli', '~> 2.17'
   spec.add_runtime_dependency 'serialport', '~> 1.3'
-  spec.add_runtime_dependency 'phaserunner', '>= 0.1.3'
+  spec.add_runtime_dependency 'phaserunner', '~> 0.1', '>= 0.1.3'
 
   spec.add_development_dependency 'bundler', '~> 1.16'
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'rdoc'
+  spec.add_development_dependency 'rdoc', '~> 0', '>= 5.0.0'
   spec.add_development_dependency 'aruba', '~> 0.14'
   spec.add_development_dependency 'yard', '~> 0.9'
 end
