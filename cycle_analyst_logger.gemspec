@@ -20,7 +20,8 @@ Gem::Specification.new do |spec|
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
-
+  spec.required_ruby_version = '~> 2'
+  
   spec.has_rdoc = true
   spec.extra_rdoc_files = ['README.rdoc', 'cycle_analyst_logger.rdoc']
   spec.rdoc_options << '--title' << 'cycle_analyst_logger' << '--main' << 'README.rdoc' << '-ri'
