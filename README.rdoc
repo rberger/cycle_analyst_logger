@@ -27,6 +27,40 @@
     help - Shows a list of commands or help for one command
     log  - Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file
 
+=== Attributes that are Logged
+
+* Timestamp
+* Cycle Analyst Amp Hours (Ah)
+* Cycle Analyst Volts (V)
+* Cycle Analyst Current (A)
+* Cycle Analyst Speed (Kph)
+* Cycle Analyst Distance (Km)
+* Cycle Analyst Motor Temp (DegC)
+* Cycle Analyst Human Cadence (RPM)
+* Cycle Analyst Human Power (W)
+* Cycle Analyst Human Torque (Nm)
+* Cycle Analyst Throttle In (V)
+* Cycle Analyst Throttle Out (V)
+* Cycle Analyst AuxA ()
+* Cycle Analyst AuxD ()
+* Cycle Analyst Limit Flags (bit flags)
+* Cycle Analyst Faults
+* Phaserunner Faults ()
+* Phaserunner Controller Temperature (deg Celsius)
+* Phaserunner Vehicle Speed (Km/hour)
+* Phaserunner Motor Temperature (deg Celsius)
+* Phaserunner Motor Current (Amps)
+* Phaserunner Motor RPM (RPM)
+* Phaserunner Motor Speed (% of rated rpm)
+* Phaserunner Battery Voltage (Volts)
+* Phaserunner Battery Current (Amps)
+* Phaserunner Battery State of Charge (%)
+* Phaserunner Battery Power (Watts)
+* Phaserunner Last Fault ()
+* Phaserunner Warnings ()
+* Phaserunner Motor Input Power (W)
+
+
 == License and Copyright
 
 * Copyright (c) 2018 Robert J. Berger
