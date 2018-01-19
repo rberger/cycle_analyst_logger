@@ -1,6 +1,6 @@
 == cycle_analyst_logger - Store the streaming data log output of a Grin Cycle Analyst V3 and optionally a Phaserunner
 
-v0.2.0
+v0.2.4
 
 === Global Options
 === -b|--baud_ca arg
@@ -69,6 +69,10 @@ Gets help for the application or its commands. Can also list the commands in a w
 ===== -c
 List commands one per line, to assist with shell completion
 
+
+
+==== Command: <tt>location_from_gmx|loc </tt>
+Merge geo info from GMX file and log lines from log file
 
 
 ==== Command: <tt>log </tt>

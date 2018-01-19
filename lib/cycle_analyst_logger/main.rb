@@ -66,6 +66,21 @@ module CycleAnalystLogger
         end
       end
 
+      desc 'Merge geo info from GMX file and log lines from log file'
+      arg :gpx_filename
+      arg :log_filename
+      arg :output_filename, :optional
+      command [:location_from_gmx, :loc]  do |location_from_gmx|
+        location_from_gmx.action do |global_options, options, args|
+          gpx_filename = args[0]
+          log_filename = args[1]
+          output_filename = args[2]
+
+          gpx = Gpx.new(gpx_filename)
+          gpx.merge_location(log_filename, output_filename)
+        end
+      end
+
       pre do |global,command,options,args|
         # Pre logic here
         # Return true to proceed; false to abort and not call the
@@ -79,8 +94,8 @@ module CycleAnalystLogger
                       else
                         global[:loop_count].to_i
                       end
+        @cycle_analyst = CycleAnalyst.new(global) if command == "log"
         @enable_phaserunner = global[:enable_phaserunner]
-        @cycle_analyst = CycleAnalyst.new(global)
       end
 
       post do |global,command,options,args|

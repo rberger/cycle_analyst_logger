@@ -8,9 +8,7 @@
 == SYNOPSIS
     cycle_analyst_logger [global options] command [command options] [arguments...]
     cycle_analyst_logger [global options] log [tty] [baudrate] [enable_phaserunner] [tty] [baudrate]
-
-== VERSION
-    0.2.0
+    cycle_analyst_logger [global options] location_from_gmx gpx_filename log_filename [output_filename]
 
 == GLOBAL OPTIONS
     -t, --tty_ca=arg         - Cycle Analyst Serial (USB) device (default: /dev/ttyUSB1)
@@ -26,6 +24,7 @@
 == COMMANDS
     help - Shows a list of commands or help for one command
     log  - Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file
+    location_from_gmx, loc - Merge geo info from GMX file and log lines from log file
 
 === Attributes that are Logged
 
@@ -33,8 +32,8 @@
 * Cycle Analyst Amp Hours (Ah)
 * Cycle Analyst Volts (V)
 * Cycle Analyst Current (A)
-* Cycle Analyst Speed (Kph)
-* Cycle Analyst Distance (Km)
+* Cycle Analyst Speed (Mph)
+* Cycle Analyst Distance (Miles)
 * Cycle Analyst Motor Temp (DegC)
 * Cycle Analyst Human Cadence (RPM)
 * Cycle Analyst Human Power (W)
