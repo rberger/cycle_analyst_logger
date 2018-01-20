@@ -62,7 +62,11 @@ module CycleAnalystLogger
         log.action do |global_options, options, args|
           filename = "cycle_analyst.#{Time.now.strftime('%Y-%m-%d_%H-%M-%S')}.csv"
           output_fd = File.open(filename, 'w')
-          cycle_analyst.get_logs(output_fd, loop_count, quiet)
+          @gps_data = {}
+          gps_thread = Thread.new {gps.read(gps_data)}
+          cycle_analyst.get_logs(output_fd, loop_count, gps_data, quiet)
+          # Todo: write gps.read, and have Cycle analyst.get handle gps_data
+
         end
       end
 
