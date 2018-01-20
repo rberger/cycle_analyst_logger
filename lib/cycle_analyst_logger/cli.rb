@@ -50,6 +50,21 @@ module CycleAnalystLogger
       arg 'baudrate', :optional
       flag [:baud_pr]
 
+      desc 'Get Gps Logs also'
+      default_value true
+      arg 'enable_gps', :optional
+      flag [:enable_gps]
+
+      desc 'Gps Serial (USB) device'
+      default_value '/dev/tty.usbserial'
+      arg 'tty', :optional
+      flag [:tty_gps]
+
+      desc 'Gps Serial port baudrate'
+      default_value 115200
+      arg 'baudrate', :optional
+      flag [:baud_gps]
+
       desc "How many lines to read"
       default_value :forever
       flag [:l, :loop_count]
@@ -58,15 +73,28 @@ module CycleAnalystLogger
       switch [:q, :quiet]
 
       desc 'Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file'
+      command :foo do |foo|
+        foo.action do |global_options, options, args|
+          gps = Gps.new(@gps_data, {tty: global_options[:tty_gps], baudrate: global_options[:baud_gps]})
+          gps.run
+        end
+      end
+
+      desc 'Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file'
       command :log do |log|
         log.action do |global_options, options, args|
           filename = "cycle_analyst.#{Time.now.strftime('%Y-%m-%d_%H-%M-%S')}.csv"
           output_fd = File.open(filename, 'w')
           @gps_data = {}
-          gps_thread = Thread.new {gps.read(gps_data)}
-          cycle_analyst.get_logs(output_fd, loop_count, gps_data, quiet)
+          gps = Gps.new(@gps_data, {tty: global_options[:tty_gps], baudrate: global_options[:baud_gps]})
+          gps_thread = Thread.new { gps.run }
+          loop do
+            puts "@gps_data: #{@gps_data.inspect}"
+            sleep 1
+          end
+          gps_thread.join
+          # cycle_analyst.get_logs(output_fd, loop_count, gps_data, quiet)
           # Todo: write gps.read, and have Cycle analyst.get handle gps_data
-
         end
       end
 
