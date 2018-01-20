@@ -5,7 +5,7 @@ module CycleAnalystLogger
 
   class Gps
     DEFAULTS = {
-      tty: '/dev/ttyUSB0',
+      tty: '/dev/ttyUSB2',
       baudrate: 115200
     }
 
@@ -73,11 +73,11 @@ module CycleAnalystLogger
     def log_header
       dict.map do |(address, node)|
         node[:name] + (node[:units] ? " (#{node[:units]})" : '')
-      end.join(',')
+      end
     end
 
     def log_data
-      dict.map do |address, node|
+     dict.map do |address, node|
         shared_data[node[:key]]
       end
     end

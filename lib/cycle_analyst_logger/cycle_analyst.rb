@@ -16,11 +16,14 @@ module CycleAnalystLogger
     # Handle from the SerialPort object
     attr_reader :serial_io
 
-    # If the phaeserunner should be read
+    # If the phaserunner should be read
     attr_reader :enable_phaserunner
 
     # Handle of the Phaserunner::Modbus object
     attr_reader :phaserunner
+
+    # If the gps should be read
+    attr_reader :enable_gps
 
     # Handle of the Gps object
     attr_reader :gps
@@ -113,6 +116,7 @@ module CycleAnalystLogger
         )
 
         output += phaserunner.bulk_log_data if enable_phaserunner
+        #puts "gps_data: #{gps.log_data.inspect}"
         output += gps.log_data if enable_gps
 
         output_line = output.flatten.join(',')

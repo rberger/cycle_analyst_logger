@@ -51,11 +51,10 @@ module CycleAnalystLogger
 
       desc 'Get Gps Logs also'
       default_value true
-      arg 'enable_gps', :optional
-      flag [:enable_gps]
+      switch [:enable_gps]
 
       desc 'Gps Serial (USB) device'
-      default_value '/dev/tty.usbserial'
+      default_value '/dev/ttyUSB2'
       arg 'tty', :optional
       flag [:tty_gps]
 
@@ -82,7 +81,7 @@ module CycleAnalystLogger
       desc 'Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file'
       command :log do |log|
         log.action do |global_options, options, args|
-          cycle_analyst = CycleAnalyst.new(global)
+          cycle_analyst = CycleAnalyst.new(global_options)
           cycle_analyst.get_logs(loop_count, quiet)
         end
       end
