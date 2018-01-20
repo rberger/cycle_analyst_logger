@@ -8,7 +8,6 @@ module CycleAnalystLogger
   end
 
   class Cli
-    attr_reader :cycle_analyst
     attr_reader :enable_phaserunner
     attr_reader :pr
     attr_reader :quiet
@@ -72,29 +71,19 @@ module CycleAnalystLogger
       desc 'Do not output to stdout'
       switch [:q, :quiet]
 
-      desc 'Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file'
-      command :foo do |foo|
-        foo.action do |global_options, options, args|
-          gps = Gps.new(@gps_data, {tty: global_options[:tty_gps], baudrate: global_options[:baud_gps]})
-          gps.run
-        end
-      end
+      # desc 'Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file'
+      # command :foo do |foo|
+      #   foo.action do |global_options, options, args|
+      #     gps = Gps.new(@gps_data, {tty: global_options[:tty_gps], baudrate: global_options[:baud_gps]})
+      #     gps.run
+      #   end
+      # end
 
       desc 'Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file'
       command :log do |log|
         log.action do |global_options, options, args|
-          filename = "cycle_analyst.#{Time.now.strftime('%Y-%m-%d_%H-%M-%S')}.csv"
-          output_fd = File.open(filename, 'w')
-          @gps_data = {}
-          gps = Gps.new(@gps_data, {tty: global_options[:tty_gps], baudrate: global_options[:baud_gps]})
-          gps_thread = Thread.new { gps.run }
-          loop do
-            puts "@gps_data: #{@gps_data.inspect}"
-            sleep 1
-          end
-          gps_thread.join
-          # cycle_analyst.get_logs(output_fd, loop_count, gps_data, quiet)
-          # Todo: write gps.read, and have Cycle analyst.get handle gps_data
+          cycle_analyst = CycleAnalyst.new(global)
+          cycle_analyst.get_logs(loop_count, quiet)
         end
       end
 
@@ -126,8 +115,9 @@ module CycleAnalystLogger
                       else
                         global[:loop_count].to_i
                       end
-        @cycle_analyst = CycleAnalyst.new(global) if command == "log"
         @enable_phaserunner = global[:enable_phaserunner]
+        @enable_gps = global[:enable_gps]
+        true
       end
 
       post do |global,command,options,args|

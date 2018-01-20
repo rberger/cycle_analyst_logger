@@ -22,6 +22,12 @@ module CycleAnalystLogger
     # Handle of the Phaserunner::Modbus object
     attr_reader :phaserunner
 
+    # Handle of the Gps object
+    attr_reader :gps
+
+    # Shared data for gps data
+    attr_reader :gps_data
+
     # Hash definition that describes the names, values and units of the Cycle Analyst log data
     CA_DICT = {
       0 => {address: 0, name: "Amp Hours", units: "Ah", scale: 1},
@@ -47,22 +53,35 @@ module CycleAnalystLogger
       @dict = CA_DICT
       @serial_io = SerialPort.new @tty, @baudrate, 8, 1
       @enable_phaserunner = opts[:enable_phaserunner]
+
       if @enable_phaserunner
         @phaserunner = Phaserunner::Modbus.new(
           tty: opts[:tty_pr], baudrate: opts[:baud_pr]
         )
       end
+
+      @enable_gps = opts[:enable_gps]
+
+      if @enable_gps
+        @gps_data = {}
+        @gps = Gps.new(@gps_data, {tty: opts[:tty_gps], baudrate: opts[:baud_gps]})
+      end
     end
 
     # Forms the proper header line
     # @return [String] of a printable CSV header line
-    def logs_header
+    def log_header
       hdr = dict.map do |(address, node)|
         "#{node[:name]} (#{node[:units]})"
       end
       if enable_phaserunner
         hdr += phaserunner.bulk_log_header.map { |name| "PR #{name}" }
       end
+
+      if enable_gps
+        hdr += gps.log_header
+      end
+
       hdr.join(',')
     end
 
@@ -75,9 +94,14 @@ module CycleAnalystLogger
     # @param output_fd [File] File Descriptor of the output file to write to. Don't write to file if nil
     # @param loop_count [Integer, Symbol] Number of lines to output, or forever if :forever
     # @param quite [Boolean] Don't output to stdout if true
-    def get_logs(output_fd, loop_count, quiet)
+    def get_logs(loop_count, quiet)
+      filename = "cycle_analyst.#{Time.now.strftime('%Y-%m-%d_%H-%M-%S')}.csv"
+      output_fd = File.open(filename, 'w')
+
+      gps_thread = Thread.new { gps.run } if enable_gps
+
       line_number = 0
-      hdr = %Q(Timestamp,#{logs_header})
+      hdr = %Q(Timestamp,#{log_header})
 
       puts hdr if not quiet
       output_fd.puts hdr if output_fd
@@ -87,7 +111,10 @@ module CycleAnalystLogger
           [Time.now.utc.round(10).iso8601(6)] +
           tsv2array(line)
         )
+
         output += phaserunner.bulk_log_data if enable_phaserunner
+        output += gps.log_data if enable_gps
+
         output_line = output.flatten.join(',')
 
         puts output_line unless quiet
