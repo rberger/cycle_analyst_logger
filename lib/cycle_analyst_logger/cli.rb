@@ -36,8 +36,7 @@ module CycleAnalystLogger
 
       desc 'Get PhaseRunner Logs also'
       default_value true
-      arg 'enable_phaserunner', :optional
-      flag [:enable_phaserunner]
+      switch [:enable_phaserunner]
 
       desc 'Phaserunner Serial (USB) device'
       default_value '/dev/ttyUSB0'
@@ -70,15 +69,7 @@ module CycleAnalystLogger
       desc 'Do not output to stdout'
       switch [:q, :quiet]
 
-      # desc 'Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file'
-      # command :foo do |foo|
-      #   foo.action do |global_options, options, args|
-      #     gps = Gps.new(@gps_data, {tty: global_options[:tty_gps], baudrate: global_options[:baud_gps]})
-      #     gps.run
-      #   end
-      # end
-
-      desc 'Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file'
+      desc 'Log the Cycle Analyst and optionally GPS and Phaserunner to a file'
       command :log do |log|
         log.action do |global_options, options, args|
           cycle_analyst = CycleAnalyst.new(global_options)
