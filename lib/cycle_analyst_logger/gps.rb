@@ -41,11 +41,11 @@ module CycleAnalystLogger
       @source_decoder = NMEAPlus::SourceDecoder.new(@serial_io)
     end
 
-    def run(fd)
+    def run(fd = nil, disable_nmea_out = false)
       source_decoder.each_complete_message do |message|
-        puts message.original.strip
-        case message.data_type
-        when 'GNGGA'
+        fd.puts message.original.strip unless disable_nmea_out
+        case message.data_type[2..-1] # Ignore the first two letters
+        when 'GGA'
           pre_data[:time] = message.fix_time
           pre_data[:latitude] = message.latitude
           pre_data[:longitude] = message.longitude
@@ -56,7 +56,7 @@ module CycleAnalystLogger
           pre_data[:horizontal_dilution] = message.horizontal_dilution
           pre_data[:satellites] = message.satellites
           pre_data[:seconds_since_last_update] = message.seconds_since_last_update
-        when 'GNVTG'
+        when 'VTG'
           pre_data[:speed_kmh] = message.speed_kmh
           pre_data[:speed_knots] = message.speed_knots
           pre_data[:faa_mode] = message.faa_mode
