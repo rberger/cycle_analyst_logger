@@ -97,15 +97,19 @@ module CycleAnalystLogger
     # @param output_fd [File] File Descriptor of the output file to write to. Don't write to file if nil
     # @param loop_count [Integer, Symbol] Number of lines to output, or forever if :forever
     # @param quite [Boolean] Don't output to stdout if true
-    def get_logs(loop_count, quiet)
+    def get_logs(loop_count, quiet, disable_nmea_out)
       timestamp = Time.now.strftime('%Y-%m-%d_%H-%M-%S')
       filename = "cycle_analyst.#{timestamp}.csv"
       output_fd = File.open(filename, 'w')
 
       if enable_gps
-        nmea_filename = "nmea.#{timestamp}.txt"
-        nmea_fd = File.open(nmea_filename, 'w')
-        gps_thread = Thread.new { gps.run(nmea_fd) }
+        unless disable_nmea_out
+          nmea_filename = "nmea.#{timestamp}.txt"
+          nmea_fd = File.open(nmea_filename, 'w')
+        else
+          nmea_fd = nil
+        end
+        gps_thread = Thread.new { gps.run(nmea_fd, disable_nmea_out) }
       end
 
       line_number = 0

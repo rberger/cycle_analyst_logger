@@ -71,9 +71,12 @@ module CycleAnalystLogger
 
       desc 'Log the Cycle Analyst and optionally GPS and Phaserunner to a file'
       command :log do |log|
+        log.desc 'Disable writing raw nmea to its own file'
+        log.default_value false
+        log.switch [:disable_nmea_out]
         log.action do |global_options, options, args|
           cycle_analyst = CycleAnalyst.new(global_options)
-          cycle_analyst.get_logs(loop_count, quiet)
+          cycle_analyst.get_logs(loop_count, quiet, options[:disable_nmea_out])
         end
       end
 
