@@ -41,8 +41,9 @@ module CycleAnalystLogger
       @source_decoder = NMEAPlus::SourceDecoder.new(@serial_io)
     end
 
-    def run
+    def run(fd)
       source_decoder.each_complete_message do |message|
+        puts message.original.strip
         case message.data_type
         when 'GNGGA'
           pre_data[:time] = message.fix_time
