@@ -2,6 +2,15 @@ require 'time'
 require 'serialport'
 require 'phaserunner'
 
+
+# For testing if a String is a numeric value
+# http://mentalized.net/journal/2011/04/14/ruby-how-to-check-if-a-string-is-numeric/
+class String
+  def numeric?
+    Float(self) != nil rescue false
+  end
+end
+
 module CycleAnalystLogger
   class CycleAnalyst
     # Cycle Analyst serial port Baudrate
@@ -31,6 +40,9 @@ module CycleAnalystLogger
     # Shared data for gps data
     attr_reader :gps_data
 
+    # Timeout in ms for waiting for result from serialport
+    timeout_ms
+
     # Hash definition that describes the names, values and units of the Cycle Analyst log data
     CA_DICT = {
       0 => {address: 0, name: "Amp Hours", units: "Ah", scale: 1},
@@ -49,10 +61,33 @@ module CycleAnalystLogger
       13 => { address: 12, name: "Limit Flags", units: "bit flags", scale: 1}
     }
 
+    # Determine which USB TTY port is the one connected to a Cycle Analyst
+    # @param tty_list [Array<String>] A list of device path/names to check
+    # @param baudrate [Integer] The baudrate to use
+    # @return [Strin,nil] The path/name of the device that is the CA or nil if it was not found
+    #  Note: The CA must be turned on and in normal mode to be detected
+    def self.determine_serialport(tty_list, baudrate)
+      tty_list.each do |tty|
+        begin
+          io = SerialPort.new tty, baudrate, 8, 1
+          io.read_timeout = timeout_ms
+        rescue
+          next
+        end
+        serial_io.each_line.with_index do |line, idx|
+          return tty if (0...CA_DICT.length).all? { |i| line[i].numeric? }
+          break if idx > 10
+        end
+        nil
+      end
+    end
+
     # CycleAnalyst New
     def initialize(opts)
       @baudrate = opts[:baud_ca]
       @tty = opts[:tty_ca]
+      @timeout_ms = opts[:cycle_analyst_timeout]
+      @timeout_ms ||= 5000
       @dict = CA_DICT
       @serial_io = SerialPort.new @tty, @baudrate, 8, 1
       @enable_phaserunner = opts[:enable_phaserunner]

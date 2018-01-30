@@ -12,3 +12,4 @@ Throtle Out (Volts)
 Acceleration
 Limit Flags (preset #, Thr Fault, Ebrake, LVC, Limit flags)
 
+Object.const_get(‘MyModule’).const_get(‘MyClass’)
