@@ -25,7 +25,7 @@ module CycleAnalystLogger
       sort_help :manually
 
       desc 'Cycle Analyst Serial (USB) device'
-      default_value '/dev/ttyUSB1'
+      default_value '/dev/cycle_analyst'
       arg 'tty', :optional
       flag [:t, :tty_ca]
 
@@ -39,7 +39,7 @@ module CycleAnalystLogger
       switch [:enable_phaserunner]
 
       desc 'Phaserunner Serial (USB) device'
-      default_value '/dev/ttyUSB0'
+      default_value '/dev/phaserunner'
       arg 'tty', :optional
       flag [:tty_pr]
 
@@ -53,7 +53,7 @@ module CycleAnalystLogger
       switch [:enable_gps]
 
       desc 'Gps Serial (USB) device'
-      default_value '/dev/ttyUSB2'
+      default_value '/dev/gps'
       arg 'tty', :optional
       flag [:tty_gps]
 
