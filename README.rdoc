@@ -97,28 +97,28 @@ There is a working systemd service unit file
 +resources/cycle_analyst_logger.service+. You can copy it into
 +/lib/systemd/system+ and do a
 
-+systemctl daemon-reload+ to load it into systemd
+<tt>systemctl daemon-reload</tt> to load it into systemd
 
 * If you want it to start when the system is booted say:
 
-+systemctl enable cycle_analyst_logger.service+
+  <tt>systemctl enable cycle_analyst_logger.service</tt>
 
 * To disable:
 
-+systemctl disable cycle_analyst_logger.service+
+  <tt>systemctl disable cycle_analyst_logger.service</tt>
 
 * To start it manually (have to do this also the first time you do an enable and
   want it to run then):
 
-+systemctl start cycle_analyst_logger.service+
+  <tt>systemctl start cycle_analyst_logger.service</tt>
 
 * You can check the status:
 
-+systemctl status cycle_analyst_logger.service+
+  <tt>systemctl status cycle_analyst_logger.service</tt>
 
 * To see the logs:
 
-+journalctl -u cycle_analyst_logger.service+
+  <tt>journalctl -u cycle_analyst_logger.service</tt>
 
 This file assumed that rvm was installed in my home directory and an rvm wrapper
 was created so it the service unit file could just exec it. I am currently using
@@ -126,7 +126,7 @@ Ruby 2.4.1.
 
 The command used to create the wrapper was run as my normal user:
 
-+rvm alias create cycle_analyst_logger 2.4.1+
+<tt>rvm alias create cycle_analyst_logger 2.4.1</tt>
 
 == License and Copyright
 
