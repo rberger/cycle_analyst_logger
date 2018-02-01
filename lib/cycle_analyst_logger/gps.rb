@@ -5,7 +5,7 @@ module CycleAnalystLogger
 
   class Gps
     DEFAULTS = {
-      tty: '/dev/ttyUSB2',
+      tty: '/dev/gps',
       baudrate: 115200
     }
 

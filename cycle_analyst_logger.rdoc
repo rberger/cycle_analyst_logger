@@ -1,6 +1,6 @@
 == cycle_analyst_logger - Store the streaming data log output of a Grin Cycle Analyst V3 and optionally a Phaserunner
 
-v0.2.4
+v0.3.3
 
 === Global Options
 === -b|--baud_ca arg
@@ -10,18 +10,18 @@ Cycle Analyst Serial port baudrate
 [Default Value] 9600
 
 
+=== --baud_gps arg
+
+Gps Serial port baudrate
+
+[Default Value] 115200
+
+
 === --baud_pr arg
 
 Phaserunner Serial port baudrate
 
 [Default Value] 115200
-
-
-=== --enable_phaserunner arg
-
-Get PhaseRunner Logs also
-
-[Default Value] true
 
 
 === -l|--loop_count arg
@@ -35,14 +35,31 @@ How many lines to read
 
 Cycle Analyst Serial (USB) device
 
-[Default Value] /dev/ttyUSB1
+[Default Value] /dev/cycle_analyst
+
+
+=== --tty_gps arg
+
+Gps Serial (USB) device
+
+[Default Value] /dev/gps
 
 
 === --tty_pr arg
 
 Phaserunner Serial (USB) device
 
-[Default Value] /dev/ttyUSB0
+[Default Value] /dev/phaserunner
+
+
+=== --[no-]enable_gps
+Get Gps Logs also
+
+
+
+=== --[no-]enable_phaserunner
+Get PhaseRunner Logs also
+
 
 
 === --help
@@ -71,11 +88,13 @@ List commands one per line, to assist with shell completion
 
 
 
-==== Command: <tt>location_from_gmx|loc </tt>
-Merge geo info from GMX file and log lines from log file
-
-
 ==== Command: <tt>log </tt>
-Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file
+Log the Cycle Analyst and optionally GPS and Phaserunner to a file
+
+
+===== Options
+===== --[no-]disable_nmea_out
+Disable writing raw nmea to its own file
+
 
 
