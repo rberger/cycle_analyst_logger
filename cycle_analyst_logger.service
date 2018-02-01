@@ -1,0 +1,13 @@
+[Unit]
+Description=starts cycle_analyst_logger
+After=network.target
+After=syslog.target
+
+[Service]
+WorkingDirectory=/home/rberger/work/trike/logs
+ExecStart=/home/rberger/.rvm/wrappers/ruby-2.4.1/cycle_analyst_logger -q log
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
