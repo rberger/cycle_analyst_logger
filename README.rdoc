@@ -76,16 +76,16 @@ Only tested with {Navspark-BD GPS}[http://navspark.mybigcommerce.com/navspark-bd
 == Udev set up
 
 A sampe udev rules file is in +resources/99-cycle_analyst.rules+. It is based on
-the information from
-{Persistent names for usb-serial devices}[http://hintshop.ludvig.co.nz/show/persistent-names-usb-serial-devices/]
+the information from {Persistent names for usb-serial
+devices}[http://hintshop.ludvig.co.nz/show/persistent-names-usb-serial-devices/]
 
 This one assumes we have the TTL to USB Cable based on the FTDI chipset like the
-{USB Cables from Grin Tech}[http://www.ebikes.ca/ca-usb.html] We have one for the Cycle
-Analyst (CA) and one for the Phaserunner. If you always use the same cable with
-the CA and the other cable always for the Phaserunner (Label them). Then you can
-get away with using the serial numbers that the UDEV system sees to
-automatically link whatever USB port the cable is plugged into to the right +/dev+
-name.
+{USB Cables from Grin Tech}[http://www.ebikes.ca/ca-usb.html] We have one for
+the Cycle Analyst (CA) and one for the Phaserunner. If you always use the same
+cable with the CA and the other cable always for the Phaserunner (Label them).
+Then you can get away with using the serial numbers that the UDEV system sees to
+automatically link whatever USB port the cable is plugged into to the right
++/dev+ name.
 
 The Navspark-BD GPS I used has a built in PL2303 chipset and doesn't seem to
 have a serial number like the FTDI chipsets does. So the setup assumes there is
@@ -107,7 +107,8 @@ There is a working systemd service unit file
 
 +systemctl disable cycle_analyst_logger.service+
 
-* To start it manually (have to do this also the first time you do an enable and want it to run then):
+* To start it manually (have to do this also the first time you do an enable and
+  want it to run then):
 
 +systemctl start cycle_analyst_logger.service+
 
@@ -119,6 +120,13 @@ There is a working systemd service unit file
 
 +journalctl -u cycle_analyst_logger.service+
 
+This file assumed that rvm was installed in my home directory and an rvm wrapper
+was created so it the service unit file could just exec it. I am currently using
+Ruby 2.4.1.
+
+The command used to create the wrapper was run as my normal user:
+
++rvm alias create cycle_analyst_logger 2.4.1+
 
 == License and Copyright
 
