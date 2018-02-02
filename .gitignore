@@ -38,3 +38,4 @@ Gemfile.lock
 *.csv
 *.log
 nmea.*.txt
+/LOCAL/
