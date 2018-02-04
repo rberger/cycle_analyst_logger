@@ -80,7 +80,16 @@ module CycleAnalystLogger
         end
       end
 
-      pre do |global,command,options,args|
+      desc 'Transform logs to CA format'
+      arg_name 'log_filename'
+      command :to_ca_file do |to_ca_file|
+        to_ca_file.action do |global_options, options, args|
+          log_filename = args[0]
+          CycleAnalyst.log_to_ca_file(log_filename)
+        end
+      end
+
+     pre do |global,command,options,args|
         # Pre logic here
         # Return true to proceed; false to abort and not call the
         # chosen command

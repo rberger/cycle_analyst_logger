@@ -49,6 +49,9 @@ module CycleAnalystLogger
       13 => { address: 12, name: "Limit Flags", units: "bit flags", scale: 1}
     }
 
+    # CA_STD_HEADER
+    CA_STD_HEADER = %w(Ah V A S D Deg RPM HW Nm ThI ThO AuxA AuxD Flgs)
+
     # CycleAnalyst New
     def initialize(opts)
       @baudrate = opts[:baud_ca]
@@ -134,6 +137,35 @@ module CycleAnalystLogger
         output_fd.puts output_line if output_fd
 
         break if idx >= loop_count
+      end
+    end
+
+    def self.valid_timestamp(input)
+      begin
+        Time.parse(input)
+      rescue ArgumentError
+        nil
+      end
+    end
+
+    def self.log_to_ca_file(log_filename)
+      output_filename = log_filename.sub(
+        /cycle_analyst\.(\d\d\d\d\-\d\d\-\d\d_\d\d\-\d\d\-\d\d).csv/,
+        'CALog_\1.txt'
+      )
+      out_fd = File.open(output_filename, 'w')
+
+      File.readlines(log_filename).each.with_index do |log_line, idx|
+        log_record = log_line.split(',')
+        if idx == 0
+          out_fd.puts CA_STD_HEADER.join("\t")
+          next
+        end
+
+        # Check that the line has a valid timestamp, skip this line if it isn't
+        next unless (timestamp = valid_timestamp log_record[0])
+
+        out_fd.puts log_record[1..CA_STD_HEADER.length].join("\t")
       end
     end
   end
