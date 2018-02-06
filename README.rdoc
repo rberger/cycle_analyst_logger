@@ -8,9 +8,16 @@
 == SYNOPSIS
     cycle_analyst_logger [global options] command [command options] [arguments...]
     cycle_analyst_logger [global options] log [tty] [baudrate] [enable_phaserunner] [tty] [baudrate]
+    cycle_analyst_logger [global options] to_ca_file log_filename
 
 == Notes
-Only tested with {Navspark-BD GPS}[http://navspark.mybigcommerce.com/navspark-bd-arduino-compatible-development-board-with-gps-beidou/]
+
+* Only tested with {Navspark-BD GPS}[http://navspark.mybigcommerce.com/navspark-bd-arduino-compatible-development-board-with-gps-beidou/]
+* Does not yet apply scaling factors to the Phaserunner data
+* Log output file is CSV with CA, Phaserunner and GPS Data per line
+* Also outputs the raw NMEA GPS file so that it can be read into {Grin Trip Analyzer}[http://www.ebikes.ca/tools/trip-analyzer.html]
+* The +to_ca_file+ command  converts the default log output file to a CALog file suitable for inputing to {Grin Trip Analyzer}[http://www.ebikes.ca/tools/trip-analyzer.html]
+* Sometimes the Trip Analyzer barfs on the NMEA file
 
 == GLOBAL OPTIONS
     -t, --tty_ca=arg          - Cycle Analyst Serial (USB) device (default: /dev/cycle_analyst)
@@ -29,6 +36,7 @@ Only tested with {Navspark-BD GPS}[http://navspark.mybigcommerce.com/navspark-bd
 == COMMANDS
     help - Shows a list of commands or help for one command
     log  - Capture the logging output of the Cycle Analyst and optionally Phaserunner to a file
+    to_ca_file - Transform logs to CA format
 
 === Attributes that are Logged
 
@@ -75,7 +83,7 @@ Only tested with {Navspark-BD GPS}[http://navspark.mybigcommerce.com/navspark-bd
 
 == Udev set up
 
-A sampe udev rules file is in +resources/99-cycle_analyst.rules+. It is based on
+A sample udev rules file is in +resources/99-cycle_analyst.rules+. It is based on
 the information from {Persistent names for usb-serial
 devices}[http://hintshop.ludvig.co.nz/show/persistent-names-usb-serial-devices/]
 

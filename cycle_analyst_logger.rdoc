@@ -1,6 +1,6 @@
 == cycle_analyst_logger - Store the streaming data log output of a Grin Cycle Analyst V3 and optionally a Phaserunner
 
-v0.3.3
+v0.3.5
 
 === Global Options
 === -b|--baud_ca arg
@@ -96,5 +96,9 @@ Log the Cycle Analyst and optionally GPS and Phaserunner to a file
 ===== --[no-]disable_nmea_out
 Disable writing raw nmea to its own file
 
+
+
+==== Command: <tt>to_ca_file  log_filename</tt>
+Transform logs to CA format
 
 
