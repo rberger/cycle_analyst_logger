@@ -2,6 +2,12 @@ require 'time'
 require 'serialport'
 require 'phaserunner'
 
+class String
+  def is_number?
+    true if Float(self) rescue false
+  end
+end
+
 module CycleAnalystLogger
   class CycleAnalyst
     # Cycle Analyst serial port Baudrate
@@ -128,7 +134,6 @@ module CycleAnalystLogger
         )
 
         output += phaserunner.bulk_log_data if enable_phaserunner
-        #puts "gps_data: #{gps.log_data.inspect}"
         output += gps.log_data if enable_gps
 
         output_line = output.flatten.join(',')
@@ -148,6 +153,16 @@ module CycleAnalystLogger
       end
     end
 
+    # Very basic test that the record is valid
+    def self.validate_log_record(log_record)
+      return false unless valid_timestamp log_record[0]
+      log_record.each.with_index do |element, idx|
+        next if [0,14,29,38].any? { |i| idx == i } #Skip Timestamps and CA Limit value
+        return false unless element.is_number? || element.empty?
+      end
+      true
+    end
+
     def self.log_to_ca_file(log_filename)
       output_filename = log_filename.sub(
         /cycle_analyst\.(\d\d\d\d\-\d\d\-\d\d_\d\d\-\d\d\-\d\d).csv/,
@@ -156,16 +171,15 @@ module CycleAnalystLogger
       out_fd = File.open(output_filename, 'w')
 
       File.readlines(log_filename).each.with_index do |log_line, idx|
-        log_record = log_line.split(',')
+        log_record = log_line.strip.split(',')
         if idx == 0
           out_fd.puts CA_STD_HEADER.join("\t")
           next
         end
 
-        # Check that the line has a valid timestamp, skip this line if it isn't
-        next unless (timestamp = valid_timestamp log_record[0])
-
-        out_fd.puts log_record[1..CA_STD_HEADER.length].join("\t")
+        log_end = CA_STD_HEADER.length
+        log_segment = log_record[1..log_end]
+        out_fd.puts log_segment.join("\t") if validate_log_record(log_record)
       end
     end
   end

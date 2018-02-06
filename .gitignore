@@ -39,3 +39,4 @@ Gemfile.lock
 *.log
 nmea.*.txt
 /LOCAL/
+.DS_Store
