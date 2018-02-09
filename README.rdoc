@@ -12,6 +12,7 @@
 
 == Notes
 
+* Delegates all Phaserunner operations to {rberger/phaserunner}[https://github.com/rberger/phaserunner] {phaserunner ruby gem}[https://rubygems.org/gems/phaserunner]
 * Only tested with {Navspark-BD GPS}[http://navspark.mybigcommerce.com/navspark-bd-arduino-compatible-development-board-with-gps-beidou/]
 * Does not yet apply scaling factors to the Phaserunner data
 * Log output file is CSV with CA, Phaserunner and GPS Data per line
