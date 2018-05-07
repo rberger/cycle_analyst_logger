@@ -243,7 +243,7 @@ mailing lists is expected to follow the [Contributor Code of Conduct](CODE_OF_CO
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/rberger/phaserunner/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/rberger/cycle_analyst_logger/tags). 
 
 ## Authors
 
