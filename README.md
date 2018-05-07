@@ -239,7 +239,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/rberge
 This project is intended to be a safe, welcoming space for collaboration.
 
 Everyone interacting in this project’s codebases, issue trackers, chat rooms and
-mailing lists is expected to follow the [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+mailing lists is expected to follow the [Contributor Code of Conduct](CODE-OF-CONDUCT.md).
 
 ## Versioning
 
