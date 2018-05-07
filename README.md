@@ -231,7 +231,7 @@ The command used to create the wrapper was run as my normal user:
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/rberger/rmodbus_cli.
+Bug reports and pull requests are welcome on GitHub at https://github.com/rberger/cycle_analyst_logger.
 
 
 ### Code of Conduct in Contriubing
