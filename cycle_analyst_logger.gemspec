@@ -23,8 +23,8 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '~> 2'
   
   spec.has_rdoc = true
-  spec.extra_rdoc_files = ['README.rdoc', 'cycle_analyst_logger.rdoc']
-  spec.rdoc_options << '--title' << 'cycle_analyst_logger' << '--main' << 'README.rdoc' << '-ri'
+  spec.extra_rdoc_files = ['README.md']
+  spec.rdoc_options << '--title' << 'cycle_analyst_logger' << '--main' << 'README.md' << '-ri'
 
   spec.add_runtime_dependency 'gli', '~> 2.17'
   spec.add_runtime_dependency 'serialport', '~> 1.3'
