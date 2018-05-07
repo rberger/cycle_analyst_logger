@@ -108,7 +108,7 @@ module CycleAnalystLogger
     # @param quite [Boolean] Don't output to stdout if true
     def get_logs(loop_count, quiet, disable_nmea_out)
       timestamp = Time.now.strftime('%Y-%m-%d_%H-%M-%S')
-      filename = "cycle_analyst.#{timestamp}.csv"
+      filename = "cycle_analyst-v#{VERSION}-#{timestamp}.csv"
       output_fd = File.open(filename, 'w')
 
       if enable_gps
