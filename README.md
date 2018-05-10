@@ -31,7 +31,7 @@ bundle install
 
 * Delegates all Phaserunner operations to [rberger/phaserunner](https://github.com/rberger/phaserunner) [phaserunner ruby gem](https://rubygems.org/gems/phaserunner)
 * Only tested with [Navspark-BD GPS](http://navspark.mybigcommerce.com/navspark-bd-arduino-compatible-development-board-with-gps-beidou/)
-* Does not yet apply scaling factors to the Phaserunner data
+* Now applies scaling factors to the Phaserunner data
 * Log output file is CSV with CA, Phaserunner and GPS Data per line
 * Also outputs the raw NMEA GPS file so that it can be read into [Grin Trip Analyzer](http://www.ebikes.ca/tools/trip-analyzer.html)
 * The `to_ca_file` command  converts the default log output file to a CALog file suitable for inputing to [Grin Trip Analyzer](http://www.ebikes.ca/tools/trip-analyzer.html)
